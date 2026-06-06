@@ -1,1 +1,466 @@
 @import "tailwindcss";
+
+@theme {
+  --color-gold: #c9a84c;
+  --color-gold-lt: #e8c97a;
+  --color-dark: #0a0a0a;
+  --color-cream: #f5f0e8;
+
+  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "DM Sans", sans-serif;
+}
+
+/* ── BASE ── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-dark);
+  font-family: var(--font-body);
+  color: var(--color-cream);
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+.nav-base {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition:
+    background 0.4s ease,
+    padding 0.3s ease,
+    backdrop-filter 0.4s ease;
+}
+
+.nav-top {
+  padding: 22px 56px;
+}
+.nav-scrolled {
+  padding: 14px 56px;
+  background: rgba(10, 10, 10, 0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-gold);
+  text-decoration: none;
+}
+
+/* Pulsing dot next to logo */
+.nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gold);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.65);
+  }
+}
+
+/* Nav links */
+.nav-link {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.65);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s;
+}
+/* Underline reveal on hover / active — needs ::after, can't do in Tailwind */
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--color-gold);
+  transition: width 0.3s ease;
+}
+.nav-link:hover,
+.nav-link--active {
+  color: var(--color-gold);
+}
+.nav-link:hover::after,
+.nav-link--active::after {
+  width: 100%;
+}
+
+/* Navbar CTA button */
+.btn-nav-cta {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  background: var(--color-gold);
+  border: none;
+  padding: 11px 26px;
+  cursor: pointer;
+  transition:
+    background 0.3s,
+    transform 0.2s;
+}
+.btn-nav-cta:hover {
+  background: var(--color-gold-lt);
+  transform: translateY(-1px);
+}
+
+/* VIDEO & OVERLAYS */
+
+.video-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slow-zoom 22s ease-in-out infinite alternate;
+}
+@keyframes slow-zoom {
+  from {
+    transform: scale(1.1);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* Skeleton while video loads */
+.skeleton-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0a0a0a 0%, #1a1208 50%, #0a0a0a 100%);
+  transition: opacity 0.8s ease;
+}
+.skeleton-text {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 300;
+  letter-spacing: 0.28em;
+  color: rgba(201, 168, 76, 0.25);
+  animation: sk-pulse 1.8s ease-in-out infinite;
+}
+@keyframes sk-pulse {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.65;
+  }
+}
+
+/* Bottom gradient (dark → transparent) */
+.overlay-bottom {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    rgba(10, 10, 10, 1) 0%,
+    rgba(10, 10, 10, 0.72) 30%,
+    rgba(10, 10, 10, 0.18) 65%,
+    rgba(10, 10, 10, 0.45) 100%
+  );
+}
+
+/* Left gradient */
+.overlay-left {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to right,
+    rgba(10, 10, 10, 0.82) 0%,
+    transparent 58%
+  );
+}
+
+/* Film grain texture — SVG data URI, can't replicate in Tailwind */
+.grain-texture {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  opacity: 0.04;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px;
+}
+
+/* Decorative vertical gold line */
+.accent-vline {
+  position: absolute;
+  top: 0;
+  left: 180px;
+  width: 1px;
+  height: 100%;
+  z-index: 4;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 168, 76, 0.25),
+    transparent
+  );
+}
+
+/* INDIA-FIRST BADGE */
+.india-badge {
+  position: absolute;
+  right: 80px;
+  bottom: 200px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+  animation: rise 1.4s 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.india-pill {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  border: 1px solid rgba(201, 168, 76, 0.38);
+  padding: 8px 16px;
+  backdrop-filter: blur(8px);
+  background: rgba(10, 10, 10, 0.5);
+}
+
+/* HERO TEXT */
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  font-weight: 300;
+  line-height: 1.02;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.hero-title em {
+  font-style: italic;
+  color: var(--color-gold-lt);
+}
+
+.hero-sub {
+  font-size: 0.88rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  color: rgba(245, 240, 232, 0.65);
+  max-width: 460px;
+  line-height: 1.8;
+  margin: 20px 0 34px;
+}
+
+/* Small uppercase labels */
+.eyebrow-text {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+.eyebrow-badge {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  background: var(--color-gold);
+  padding: 3px 10px;
+}
+
+/* CTA BUTTONS */
+
+.btn-primary {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-dark);
+  background: var(--color-gold);
+  border: none;
+  padding: 16px 36px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+.btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-gold-lt);
+  transform: translateX(-100%);
+  transition: transform 0.35s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+}
+.btn-primary:hover::before {
+  transform: translateX(0);
+}
+
+/* Secondary — ghost border */
+.btn-secondary {
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.65);
+  background: transparent;
+  border: 1px solid rgba(245, 240, 232, 0.22);
+  padding: 16px 30px;
+  cursor: pointer;
+  transition:
+    border-color 0.3s,
+    color 0.3s;
+}
+.btn-secondary:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* SCROLL INDICATOR */
+.scroll-fill {
+  position: absolute;
+  top: -100%;
+  width: 100%;
+  height: 100%;
+  background: var(--color-gold);
+  animation: scroll-drop 2s ease-in-out infinite;
+}
+@keyframes scroll-drop {
+  0% {
+    top: -100%;
+  }
+  60%,
+  100% {
+    top: 100%;
+  }
+}
+
+.scroll-label {
+  font-size: 0.58rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+/* STATS BAR */
+.stats-bar {
+  border-top: 1px solid rgba(201, 168, 76, 0.18);
+  padding: 0 80px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.stat-item {
+  padding: 26px 0 26px 32px;
+  border-right: 1px solid rgba(201, 168, 76, 0.1);
+  position: relative;
+}
+.stat-item:first-child {
+  padding-left: 0;
+}
+.stat-item:last-child {
+  border-right: none;
+}
+/* Animated underline on hover — needs ::after */
+.stat-item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-gold);
+  transition: width 0.5s ease;
+}
+.stat-item:hover::after {
+  width: 100%;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 2.1rem;
+  font-weight: 600;
+  color: var(--color-gold-lt);
+  line-height: 1;
+  display: block;
+  margin-bottom: 6px;
+}
+.stat-label {
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.4);
+}
+
+/* ENTRANCE ANIMATIONS */
+.hero-enter,
+.animate-rise {
+  animation: rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-top,
+  .nav-scrolled {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+  .india-badge {
+    display: none;
+  }
+  .stats-bar {
+    padding: 0 24px;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .stat-item {
+    padding: 18px 14px;
+  }
+  .stat-item:nth-child(2) {
+    border-right: none;
+  }
+}
