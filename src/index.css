@@ -2,6 +2,7 @@
 @import "./styles/hero.css";
 @import "./styles/retail.css";
 @import "./styles/luxury.css";
+@import "./styles/dining.css";
 
 @theme {
   --color-gold: #c9a84c;

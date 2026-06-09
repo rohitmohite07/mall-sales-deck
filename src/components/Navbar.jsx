@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -10,9 +10,47 @@ const NAV_ITEMS = [
   "Contact",
 ];
 
-export default function Navbar({ navScrolled }) {
+export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [navScrolled, setNavScrolled] = useState(false);
   const [activeNav, setActiveNav] = useState("Overview");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 120;
+      setNavScrolled(window.scrollY > 60);
+
+      const sections = [
+        { id: "overview", label: "Overview" },
+        { id: "retail", label: "Retail" },
+        { id: "luxury", label: "Luxury" },
+        { id: "dining", label: "Dining" },
+        { id: "events", label: "Events" },
+        { id: "contact", label: "Contact" },
+      ];
+
+      sections.forEach((section) => {
+        const el = document.getElementById(section.id);
+
+        if (!el) return;
+
+        const top = el.offsetTop;
+        const height = el.offsetHeight;
+
+        if (scrollPosition >= top && scrollPosition < top + height) {
+          setActiveNav(section.label);
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <nav className={`nav-base ${navScrolled ? "nav-scrolled" : "nav-top"}`}>

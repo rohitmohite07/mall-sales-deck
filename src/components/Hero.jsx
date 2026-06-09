@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from "react";
 import heroVideo from "../assets/videos/mall-hero.mp4";
-import Navbar from "./Navbar";
 
 const STATS = [
   { value: "1.2M", label: "Sq. Ft. of Experience" },
@@ -14,12 +13,10 @@ export default function Hero() {
   const [videoLoaded, setVideoLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [navScrolled, setNavScrolled] = useState(false);
 
   useEffect(() => {
     const onScroll = () => {
       setScrollY(window.scrollY);
-      setNavScrolled(window.scrollY > 60);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -37,10 +34,6 @@ export default function Hero() {
 
   return (
     <>
-      {/* ── NAVBAR ── */}
-      <Navbar navScrolled={navScrolled} />
-
-      {/* ── HERO ── */}
       <section className="relative w-full h-screen min-h-175 overflow-hidden flex items-end">
         {/* Video layer */}
         <div className="absolute inset-0 z-0">
