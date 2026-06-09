@@ -1,4 +1,6 @@
+import Contact from "./components/Contact";
 import Dining from "./components/Dining";
+import Events from "./components/Events";
 import Hero from "./components/Hero";
 import Luxury from "./components/Luxury";
 import Navbar from "./components/Navbar";
@@ -17,6 +19,8 @@ function App() {
         <Retail />
         <Luxury />
         <Dining />
+        <Events />
+        <Contact />
       </main>
     </>
   );

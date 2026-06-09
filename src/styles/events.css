@@ -1,0 +1,622 @@
+.events-section {
+  position: relative;
+  background: #0e0e0e;
+  padding: 120px 80px;
+  overflow: hidden;
+}
+
+/* ── Background decorations ── */
+
+/* Diagonal grid */
+.ev-bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(45deg, rgba(201, 168, 76, 0.03) 1px, transparent 1px),
+    linear-gradient(-45deg, rgba(201, 168, 76, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
+}
+/* Top-left radial glow */
+.ev-bg-glow {
+  position: absolute;
+  top: -10%;
+  left: -5%;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(201, 168, 76, 0.06) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+/* Vertical accent line */
+.ev-bg-vline {
+  position: absolute;
+  top: 0;
+  left: 180px;
+  width: 1px;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(201, 168, 76, 0.1),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* SCROLL ANIMATION STATES */
+.ev-hidden {
+  opacity: 0;
+  transform: translateY(32px);
+}
+.ev-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* SECTION HEADER */
+.ev-header {
+  margin-bottom: 72px;
+}
+
+.ev-headline-wrap {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: end;
+}
+.ev-headline {
+  font-family: var(--font-display);
+  font-size: clamp(2.8rem, 5.5vw, 4.8rem);
+  font-weight: 300;
+  line-height: 1.04;
+  color: #fff;
+}
+.ev-headline em {
+  font-style: italic;
+  color: var(--color-gold-lt);
+}
+.ev-sub {
+  font-size: 0.92rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.55);
+  margin-bottom: 24px;
+}
+
+/* "Live Now" pulsing badge */
+.ev-live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  padding: 10px 18px;
+  background: rgba(201, 168, 76, 0.05);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+}
+.ev-live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4caf50;
+  box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+  animation: live-pulse 1.8s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(76, 175, 80, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+  }
+}
+
+/* STATS ROW */
+.ev-stats-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.12);
+  margin-bottom: 100px;
+}
+.ev-stat {
+  background: #0e0e0e;
+  padding: 32px 28px;
+  position: relative;
+  cursor: default;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s ease;
+}
+.ev-stat:hover {
+  background: rgba(201, 168, 76, 0.04);
+}
+.ev-stat::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-gold);
+  transition: width 0.4s ease;
+}
+.ev-stat:hover::before {
+  width: 100%;
+}
+.ev-stat-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 600;
+  color: var(--color-gold-lt);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.ev-stat-label {
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.4);
+  line-height: 1.5;
+}
+
+/* SIGNATURE IP EVENTS — card list + detail panel */
+.ev-events-wrap {
+  margin-bottom: 100px;
+}
+
+.ev-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2px;
+  background: rgba(201, 168, 76, 0.1);
+}
+
+/* Left: stacked event selector cards */
+.ev-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: rgba(201, 168, 76, 0.08);
+}
+.ev-card {
+  display: flex;
+  align-items: stretch;
+  background: #0e0e0e;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  overflow: hidden;
+  transition: background 0.25s ease;
+}
+.ev-card:hover {
+  background: rgba(201, 168, 76, 0.04);
+}
+.ev-card--active {
+  background: rgba(201, 168, 76, 0.07);
+}
+
+/* Coloured left strip */
+.ev-card-left-bar {
+  width: 3px;
+  flex-shrink: 0;
+  transition: background 0.3s ease;
+}
+.ev-card-body {
+  padding: 22px 20px;
+  flex: 1;
+}
+.ev-card-category {
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+}
+.ev-card-edition {
+  font-size: 0.6rem;
+  font-weight: 400;
+  color: rgba(245, 240, 232, 0.25);
+  letter-spacing: 0.08em;
+}
+.ev-card-name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #fff;
+  margin: 4px 0 3px;
+  line-height: 1.2;
+  transition: color 0.25s;
+}
+.ev-card--active .ev-card-name {
+  color: var(--color-gold-lt);
+}
+.ev-card-tagline {
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.35);
+  line-height: 1.4;
+}
+
+/* Right: event detail panel */
+.ev-detail {
+  background: #121212;
+  padding: 48px 48px 48px 50px;
+  position: relative;
+}
+.ev-detail-topbar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transition: background 0.4s ease;
+}
+.ev-detail-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  margin-bottom: 16px;
+}
+.ev-detail-icon {
+  font-size: 2rem;
+  line-height: 1;
+  margin-top: 4px;
+  transition: color 0.4s ease;
+}
+.ev-detail-tag {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.32);
+  margin-bottom: 6px;
+}
+.ev-detail-name {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.1;
+}
+.ev-detail-desc {
+  font-size: 0.85rem;
+  font-weight: 300;
+  line-height: 1.85;
+  color: rgba(245, 240, 232, 0.52);
+  margin-bottom: 32px;
+  max-width: 560px;
+}
+
+/* Key metrics strip */
+.ev-metrics {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+}
+
+.ev-metric-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 4px;
+  transition: color 0.4s ease;
+}
+.ev-metric-label {
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.35);
+}
+
+/* Participating brands */
+.ev-brands-label {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(245, 240, 232, 0.3);
+  margin-bottom: 12px;
+}
+.ev-brand-chip {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: rgba(245, 240, 232, 0.7);
+  border: 1px solid rgba(201, 168, 76, 0.18);
+  padding: 5px 14px;
+  background: rgba(201, 168, 76, 0.04);
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+  cursor: default;
+}
+.ev-brand-chip:hover {
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* VENUE SPACES — 4-card grid */
+.ev-venues-wrap {
+  margin-bottom: 100px;
+}
+
+.ev-venues-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: rgba(201, 168, 76, 0.1);
+}
+.ev-venue-card {
+  background: #0e0e0e;
+  padding: 36px 28px;
+  position: relative;
+  cursor: default;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s ease;
+}
+.ev-venue-card:hover {
+  background: rgba(201, 168, 76, 0.04);
+}
+.ev-venue-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 0;
+  background: var(--color-gold);
+  transition: width 0.4s ease;
+}
+.ev-venue-card:hover::before {
+  width: 100%;
+}
+
+.ev-venue-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.ev-venue-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.ev-venue-area {
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  opacity: 0.7;
+}
+.ev-venue-name {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+.ev-venue-capacity {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--color-gold-lt);
+  margin-bottom: 16px;
+  letter-spacing: 0.06em;
+}
+.ev-venue-divider {
+  height: 1px;
+  background: rgba(201, 168, 76, 0.1);
+  margin-bottom: 14px;
+}
+.ev-venue-best {
+  font-size: 0.75rem;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(245, 240, 232, 0.48);
+  margin-bottom: 8px;
+}
+.ev-venue-best-label {
+  font-weight: 500;
+  color: rgba(245, 240, 232, 0.65);
+}
+.ev-venue-note {
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--color-gold);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+/* SPONSORSHIP TIERS */
+.ev-sponsor-wrap {
+  margin-bottom: 100px;
+}
+
+.ev-sponsor-header {
+  margin-bottom: 52px;
+}
+.ev-sponsor-heading {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.ev-sponsor-heading em {
+  font-style: italic;
+  color: var(--color-gold-lt);
+}
+.ev-sponsor-sub {
+  font-size: 0.88rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: rgba(245, 240, 232, 0.5);
+  max-width: 540px;
+}
+
+.ev-tiers {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  background: rgba(201, 168, 76, 0.1);
+}
+.ev-tier-card {
+  background: #0e0e0e;
+  padding: 40px 32px;
+  position: relative;
+  overflow: hidden;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    background 0.3s ease;
+}
+.ev-tier-card:hover {
+  background: rgba(201, 168, 76, 0.04);
+}
+
+/* Top accent bar — coloured per tier */
+.ev-tier-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+}
+.ev-tier-name {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  line-height: 1;
+}
+.ev-tier-perks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.ev-tier-perk {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1.5;
+  color: rgba(245, 240, 232, 0.6);
+}
+.ev-tier-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 6px;
+  opacity: 0.8;
+}
+
+/* CTA STRIP */
+.ev-cta-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  border-top: 1px solid rgba(201, 168, 76, 0.18);
+  padding-top: 56px;
+  flex-wrap: wrap;
+}
+.ev-cta-heading {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 300;
+  font-style: italic;
+  color: rgba(245, 240, 232, 0.7);
+  margin-bottom: 6px;
+}
+.ev-cta-sub {
+  font-size: 0.8rem;
+  font-weight: 300;
+  color: rgba(245, 240, 232, 0.38);
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .ev-headline-wrap {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .ev-layout {
+    grid-template-columns: 1fr;
+  }
+  .ev-tiers {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 768px) {
+  .events-section {
+    padding: 80px 24px;
+  }
+  .ev-stats-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ev-stat:nth-child(2) {
+    border-right: none;
+  }
+  .ev-venues-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ev-tiers {
+    grid-template-columns: 1fr;
+  }
+  .ev-metrics {
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .ev-detail {
+    padding: 32px 24px;
+  }
+  .ev-cta-strip {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .ev-bg-vline {
+    display: none;
+  }
+}
+@media (max-width: 480px) {
+  .ev-stats-row {
+    grid-template-columns: 1fr;
+  }
+  .ev-venues-grid {
+    grid-template-columns: 1fr;
+  }
+}

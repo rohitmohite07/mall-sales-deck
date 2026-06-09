@@ -3,6 +3,8 @@
 @import "./styles/retail.css";
 @import "./styles/luxury.css";
 @import "./styles/dining.css";
+@import "./styles/events.css";
+@import "./styles/contact.css";
 
 @theme {
   --color-gold: #c9a84c;
