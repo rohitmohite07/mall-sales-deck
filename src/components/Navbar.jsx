@@ -78,7 +78,9 @@ export default function Navbar() {
       </ul>
 
       {/* Desktop CTA */}
-      <button className="hidden lg:block btn-nav-cta">Book a Tour</button>
+      <a href="#contact" className="hidden lg:block btn-nav-cta">
+        Book a Tour
+      </a>
 
       {/* Mobile Menu Button */}
       <button
@@ -114,7 +116,9 @@ export default function Navbar() {
         </ul>
 
         <div className="px-6 pb-6">
-          <button className="btn-nav-cta w-full">Book a Tour</button>
+          <a href="#contact" className="btn-nav-cta w-full">
+            Book a Tour
+          </a>
         </div>
       </div>
     </nav>
